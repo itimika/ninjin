@@ -45,15 +45,12 @@ class SheetHandler:
             ws.append_row(["公開日", "平均相場（円/kg）", "前市比（%）", "高値（円/kg）","中値（円/kg）","安値（円/kg）","総入荷量（t）", "見通し", "平年相場"])
             ws.append_row(values)
             
-            try:
-                ws = self.wb.worksheet("平均相場一覧")
-                ws.append_row([sheet_name, ""])
-                # 数式をI2に挿入
-                ws = self.wb.worksheet(sheet_name)
-                formula = "=VLOOKUP(Sheetname(), '平均相場一覧'!A:B, 2, FALSE)"
-                ws.update_acell("I2", formula)
-            except Exception as e:
-                print(e)
+            ws = self.wb.worksheet("平均相場一覧")
+            ws.append_row([sheet_name, ""])
+            # 数式をI2に挿入
+            ws = self.wb.worksheet(sheet_name)
+            formula = "=VLOOKUP(Sheetname(), '平均相場一覧'!A:B, 2, FALSE)"
+            ws.update_acell("I2", formula)
                 
             self._set_rules(ws)
     

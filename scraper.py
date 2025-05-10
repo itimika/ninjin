@@ -28,35 +28,32 @@ class Scraper:
         item_list = []
         yasai_name = ''
         
-        try:
-            self.driver.get(url)
-            self.driver.implicitly_wait(5)
-            
-            for n, xpath in enumerate(xpath_list):
-                content = self.driver.find_element(By.XPATH, xpath).text
-                if n==1:
-                    content = int(content.replace(",", ""))
-                # 高値、中値、安値
-                elif (n==3) or (n==4) or (n==5):
-                    match = re.search(r'\d{1,3}(?:,\d{3})*', content)
-                    if match:
-                        content = match.group()
-                        content = int(content.replace(",", ""))
-                # 総入荷量
-                elif n==6:
-                    match = re.search(r'\d+(\.\d+)?', content)
-                    if match:
-                        content = float(match.group())
-                # 見通し
-                elif n==7:
-                    content = content.split()[-1]
-                elif n==8:
-                    yasai_name = content[:-3]
-                if n != 8:
-                    item_list.append(content)
+        self.driver.get(url)
+        self.driver.implicitly_wait(5)
         
-        except Exception as e:
-            print(e)
+        for n, xpath in enumerate(xpath_list):
+            content = self.driver.find_element(By.XPATH, xpath).text
+            if n==1:
+                content = int(content.replace(",", ""))
+            # 高値、中値、安値
+            elif (n==3) or (n==4) or (n==5):
+                match = re.search(r'\d{1,3}(?:,\d{3})*', content)
+                if match:
+                    content = match.group()
+                    content = int(content.replace(",", ""))
+            # 総入荷量
+            elif n==6:
+                match = re.search(r'\d+(\.\d+)?', content)
+                if match:
+                    content = float(match.group())
+            # 見通し
+            elif n==7:
+                content = content.split()[-1]
+            elif n==8:
+                yasai_name = content[:-3]
+            if n != 8:
+                item_list.append(content)
+
         
         return item_list, yasai_name
     
