@@ -4,6 +4,9 @@
 # アグリネ
 # https://agrine.jp/wholesale-market.php?mrk=14300&dt=2025-04-24
 
+# exe化する時
+# pyinstaller --onefile --icon=にんじん.ico ninjin.py
+
 import configparser
 import os
 from urllib.parse import quote
